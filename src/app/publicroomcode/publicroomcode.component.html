@@ -1,0 +1,27 @@
+<div class="modal-body modalBg tabSpace">
+    <ul ngbNav #nav="ngbNav" class="nav-tabs">
+        <li ngbNavItem>
+            <a ngbNavLink>Newbies</a>
+
+        </li>
+        <li ngbNavItem>
+            <a ngbNavLink>Relaxed</a>
+
+        </li>
+        <li ngbNavItem>
+            <a ngbNavLink>Fast</a>
+
+        </li>
+        <li ngbNavItem>
+            <a ngbNavLink>Turbo</a>
+        </li>
+    </ul>
+
+    <div class="createRoomWrap">
+        <h3>Enter Room Name</h3>
+        <input type="text" class="roomCode"  >
+
+    </div>
+
+    <div [ngbNavOutlet]="nav"></div>
+</div>
