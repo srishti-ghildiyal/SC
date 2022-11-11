@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ModelLocater } from '../modelLocater/modelLocater';
 
 @Component({
   selector: 'app-publicroomcode',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PublicroomcodeComponent implements OnInit {
 
-  constructor() { }
+  constructor(public modal: ModelLocater) { }
 
   ngOnInit(): void {
+  }
+
+  getRoomName(event:any){
+    this.modal.roomTitle =event.target.value;
   }
 
 }

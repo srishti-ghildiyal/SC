@@ -5,7 +5,7 @@
                 <span>A</span>
                 <img src="../../assets/img/profilep.png" alt="">
             </div>
-            <p>Louis</p>
+            <p>{{this.modal.userName}}</p>
             <button>Switch the player <img src="../../assets/img/refresh.png" alt=""></button>
         </div>
     
@@ -14,7 +14,7 @@
                 <span>B</span>
                 <img src="../../assets/img/profilep.png" alt="">
             </div>
-            <p>Louis</p>
+            <p>{{this.modal.userName}}</p>
             <button>Switch the player <img src="../../assets/img/refresh.png" alt=""></button>
         </div>
     
@@ -23,7 +23,7 @@
                 <span>B</span>
                 <img src="../../assets/img/profilep.png" alt="">
             </div>
-            <p>Louis</p>
+            <p>{{this.modal.userName}}</p>
             <button>Switch the player <img src="../../assets/img/refresh.png" alt=""></button>
         </div>
     
@@ -32,10 +32,10 @@
                 <span>A</span>
                 <img src="../../assets/img/profilep.png" alt="">
             </div>
-            <p>Louis</p>
+            <p>{{this.modal.userName}}</p>
             <button>Switch the player <img src="../../assets/img/refresh.png" alt=""></button>
         </div>                           
     
-        <button type="button" class="blueBtn">Play</button>
+        <button type="button" class="blueBtn" (click)="startGame()" *ngIf="this.modal.isHost" >Play</button>
     </div>
 </div>

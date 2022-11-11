@@ -5,7 +5,7 @@ import { Injectable } from "@angular/core";
 })
 
 export class ModelLocater{
-    public roomCodeToJoinAndShare = 0;
+    public roomCodeToJoinAndShare:any ;
     public gamePlayer: any = [];
     public playersInRoom:any=[];
     public teamName = "A";
@@ -15,7 +15,11 @@ export class ModelLocater{
     public roomName: string = "";
     public hostPlayer: any;
     public gameMode:string='';
-    public codeValue:any;
+    public roomCode:any;
+    public lobbydata:any;
+    public isHost:boolean=false;
+    public userName:string='';
+    public roomTitle:string = ''
    
 
 

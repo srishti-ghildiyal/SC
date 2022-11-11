@@ -11,35 +11,16 @@ import { SocketconnectionServices } from '../services/socketconnection.service';
 export class JoinroomComponent implements OnInit {
 
   constructor(public model: ModelLocater, private formBuilder: FormBuilder, public SocketSvc: SocketconnectionServices) { }
-  playerform: any;
-
-  ngOnInit(): void {
-    this.playerform = this.formBuilder.group({
-      roomid: [''],
-
-    });
-
-    this.model.codeValue = this.f.roomid.value
-    
-
-    
-  }
-
-  get f() {
-    
-    return this.playerform.controls;
   
-  }
+ ngOnInit(): void {
+    
+ }
 
-  // test(){
-  //   console.log(this.f.roomid.value)
-  // }
+ getRoomCode(event:any) {
+  this.model.roomCode = event.target.value;
+}
 
 
- 
- 
 
- 
-  
 
 }

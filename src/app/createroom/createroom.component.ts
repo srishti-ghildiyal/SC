@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ModelLocater } from '../modelLocater/modelLocater';
 
 @Component({
   selector: 'app-createroom',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateroomComponent implements OnInit {
 
-  constructor() { }
+  constructor(public modal:ModelLocater) { }
 
   ngOnInit(): void {
   }

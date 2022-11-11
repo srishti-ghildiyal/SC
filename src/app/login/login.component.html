@@ -21,7 +21,7 @@
             <div class="frmCol">
                 <h3>Sign In</h3>
                 <div class="inputWrap">
-                    <input type="text" placeholder="User Name/ Email Address" class="from-control">
+                    <input type="text" placeholder="User Name/ Email Address" class="from-control" (keyup)="getUserName($event)">
                 </div>
                 <div class="inputWrap">
                     <input type="password" placeholder="Password" class="from-control">

@@ -3,11 +3,11 @@
         <li ngbNavItem>
             <a ngbNavLink >Newbies</a>
             <ng-template ngbNavContent>
-            <div class="roomList">
+            <div class="roomList" *ngIf="this.modal.roomTitle">
                 <div class="listItem">
                     <img src="../../assets/img/trtl.png" alt="" class="ttl">
                     <div>
-                        <p> Room Name ABC</p>
+                        <p>{{this.modal.roomTitle}}</p>
                         <p> Entry Fee: 50 <img src="../../assets/img/gems.png" alt="gems"></p>
                     </div>
                     <button class="joinBtn">
@@ -15,18 +15,18 @@
                     </button>
                 </div>
 
-                <div class="listItem">
+                <!-- <div class="listItem">
                     <img src="../../assets/img/trtl.png" alt="" class="ttl">
                     <div>
                         <p> Room Name ABC</p>
                         <p> Entry Fee: 50 <img src="../../assets/img/gems.png" alt="gems"></p>
                     </div>
-                    <button class="joinBtn">
+                    <button class="joinBtn"  >
                         Join
                     </button>
-                </div>
+                </div> -->
 
-                <div class="listItem">
+                <!-- <div class="listItem">
                     <img src="../../assets/img/trtl.png" alt="" class="ttl">
                     <div>
                         <p> Room Name ABC</p>
@@ -35,9 +35,9 @@
                     <button class="joinBtn">
                         Join
                     </button>
-                </div>
+                </div> -->
 
-                <div class="listItem">
+                <!-- <div class="listItem">
                     <img src="../../assets/img/trtl.png" alt="" class="ttl">
                     <div>
                         <p> Room Name ABC</p>
@@ -46,9 +46,9 @@
                     <button class="joinBtn">
                         Join
                     </button>
-                </div>
+                </div> -->
 
-                <div class="listItem">
+                <!-- <div class="listItem">
                     <img src="../../assets/img/trtl.png" alt="" class="ttl">
                     <div>
                         <p> Room Name ABC</p>
@@ -57,9 +57,9 @@
                     <button class="joinBtn">
                         Join
                     </button>
-                </div>
+                </div> -->
 
-                <div class="listItem">
+                <!-- <div class="listItem">
                     <img src="../../assets/img/trtl.png" alt="" class="ttl">
                     <div>
                         <p> Room Name ABC</p>
@@ -68,9 +68,9 @@
                     <button class="joinBtn">
                         Join
                     </button>
-                </div>
+                </div> -->
 
-                <div class="listItem">
+                <!-- <div class="listItem">
                     <img src="../../assets/img/trtl.png" alt="" class="ttl">
                     <div>
                         <p> Room Name ABC</p>
@@ -79,9 +79,9 @@
                     <button class="joinBtn">
                         Join
                     </button>
-                </div>
+                </div> -->
 
-                <div class="listItem">
+                <!-- <div class="listItem">
                     <img src="../../assets/img/trtl.png" alt="" class="ttl">
                     <div>
                         <p> Room Name ABC</p>
@@ -90,7 +90,7 @@
                     <button class="joinBtn">
                         Join
                     </button>
-                </div>
+                </div> -->
             </div>
             </ng-template>
         </li>

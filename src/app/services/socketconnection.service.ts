@@ -32,7 +32,7 @@ export class SocketconnectionServices {
     console.log("client is ", this.client, " port is ", this.port)
 
     this.client.create('lobby', userObj).then((lobby: any) => {
-      // this.setLobbyObject.next(lobby);
+      this.setLobbyObject.next(lobby);
       console.log("lobby Info >>", lobby);
       this.startLobby(lobby, 'random');
 
@@ -40,6 +40,52 @@ export class SocketconnectionServices {
       console.log("Lobby JOIN ERROR", e);
       alert("errror in connecting with lobby")
 
+
+    });
+
+  }
+  //Create or Join Random Room
+ 
+  public joinOrCreate(type: any, userObj: any) {
+    this.client.getAvailableRooms(type).then((room: any) => {
+      console.log("rooms are ", room.metadata.roomTitle)
+      let roomExist = false;
+      // if (rooms.length == 0) {
+        this.client.create(type, userObj).then((lobby: any) => {
+          this.setLobbyObject.next(lobby);
+          console.log("Room created successfully >>", lobby, userObj);
+          this.startLobby(lobby, 'random');
+        }).catch((e: any) => {
+          console.log("Lobby JOIN ERROR", e);
+          alert("errror in connecting with lobby")
+        });
+      // }
+      // else {
+      //   for (var i = 0; i < rooms.length; i++) {
+      //     console.log("matching rooms ", rooms[i].roomId);
+      //     if (rooms[i].roomId == userObj.roomId) {
+      //       roomExist = true;
+      //       this.client.joinById(rooms[i].roomId, userObj).then((lobby: any) => {
+      //         this.setLobbyObject.next(lobby);
+      //         console.log("lobby joined successfully >>", lobby);
+      //         this.startLobby(lobby, 'Random');
+      //       }).catch((e: any) => {
+      //         console.log("JOIN ERROR", e);
+      //       });
+      //     }
+      //     else if (!roomExist && i == (rooms.length - 1)) {
+      //       this.client.create(type, userObj).then((lobby: any) => {
+      //         this.setLobbyObject.next(lobby);
+      //         console.log("Room created successfully >>", lobby, userObj);
+      //         this.startLobby(lobby, 'random');
+      //       }).catch((e: any) => {
+      //         console.log("Lobby JOIN ERROR", e);
+      //       });
+      //     }
+      //   }
+      // }
+    }).catch((e: any) => {
+      console.log("get avl rooms Room Join ERROR", e);
     });
   }
 
@@ -48,6 +94,7 @@ export class SocketconnectionServices {
 
   //start Random lobby
   startLobby(lobby: any, roomtype: any) {
+    this.model.lobbydata = lobby
     lobby.onMessage("JOINFINAL", (message: any) => {
       console.log('all player', message.gamePlayerList);
       // this.model.playersInRoom = message.gamePlayerList;
@@ -68,6 +115,10 @@ export class SocketconnectionServices {
       console.log('Client left the lobby', code)
     })
   }
+
+
+
+
 
 
   //Private Lobby Room
@@ -108,10 +159,10 @@ export class SocketconnectionServices {
       console.log("room connect ", message);
       console.log("ALL PLAYERS", this.model.playersInRoom);
 
-      this.model.teamName = message.team;
-      this.model.seatOnServer = message.seat;
-      this.model.userServerIndex = message.userIndex;
-      console.log(message.userIndex, "inside room connect");
+      // this.model.teamName = message.team;
+      // this.model.seatOnServer = message.seat;
+      // this.model.userServerIndex = message.userIndex;
+      // console.log(message.userIndex, "inside room connect");
       friendsRoom.leave();
       this.leaveLobby.next(message);
       this.model.players = [];
@@ -135,49 +186,22 @@ export class SocketconnectionServices {
   //   }
   // }
 
-
-
-
-
-   }
-
-
+}
+  
    public joinFriendsRoom(userObj: any, roomId: any) {
-    console.log("inside funcnjoin friend")
+    console.log("inside funcnjoin friend",roomId)
     const port = 'ws://3.18.57.54:2567';
     this.client = new Client(this.port);
     let roomExist = false;
-    this.client.getAvailableRooms("lobby").then((rooms: any) => {
-      console.log("rooms are ", rooms)
-      if (rooms.length == 0) {
-        console.log("")
-      }
-      else {
-        for (var i = 0; i < rooms.length; i++) {
-          console.log("matching rooms ", rooms[i].roomId, "and ", roomId)
-          if (rooms[i].roomId == roomId) {
-            roomExist = true;
-            this.client.joinById(roomId, userObj).then((lobby: any) => {
-              console.log("lobby joined successfully >>", lobby);
-              // this.startFriendsRoom(lobby, 'Random');
-              // this.router.navigateByUrl('/join-game', { skipLocationChange: false });
-              this.setLobbyObject.next(lobby);
-
-            }).catch((e: any) => {
-              console.log("JOIN friendivite ERROR", e);
-            });
-          }
-          else if (!roomExist && i == (rooms.length - 1)) {
-            console.log("elseif 595");
-          }
-        }
-      }
+    this.client.joinById(roomId, userObj).then((lobby: any) => {
+      console.log("lobby joined successfully >>", lobby);
+      // this.startFriendsRoom(lobby, 'Random');
+      // this.router.navigateByUrl('/join-game', { skipLocationChange: false });
+      this.setLobbyObject.next(lobby);
+  
     }).catch((e: any) => {
-      console.log("get avl rooms friendivite ERROR", e);
-      alert("room join error")
+      console.log("JOIN friendivite ERROR", e);
     });
-  }
-
-
+}
 
 }

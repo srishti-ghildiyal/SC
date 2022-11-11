@@ -12,11 +12,14 @@ import { SocketconnectionServices } from '../services/socketconnection.service';
   styleUrls: ['./landing.component.scss']
 })
 export class LandingComponent implements OnInit {
+	
 //  @ViewChild(CreateprivateroomComponent)
 //  gameMode: CreateprivateroomComponent = new CreateprivateroomComponent;
 
 
- constructor(private modalService: NgbModal,public socketsvc:SocketconnectionServices, public router:Router,public modal:ModelLocater) { }
+ constructor(private modalService: NgbModal,public socketsvc:SocketconnectionServices, public router:Router,public modal:ModelLocater) { 
+	
+ }
 
   ngOnInit(): void {
 	
@@ -71,6 +74,7 @@ export class LandingComponent implements OnInit {
 	////******////
 
 	createRoomCode(){
+		this.modal.isHost = true;
 		let userObj = {
 			userName: 'Srishti',
 			coin: 100,
@@ -95,9 +99,26 @@ export class LandingComponent implements OnInit {
 			roomType: 'private',
 			gameMode: this.modal.gameMode
 		  }
-		  this.socketsvc.joinFriendsRoom(userObj,this.modal.codeValue)
+		  console.log('room code',this.modal.roomCode)
+		  this.socketsvc.joinFriendsRoom(userObj,this.modal.roomCode)
 	}
-	
+
+	createRoomName(){
+		let userObj = {
+			userName: 'Srishti',
+			coin: 100,
+			avatar: "1",
+			dbId: Math.floor(Math.random() * 10000),
+			mode: 'normal',
+			roomType: 'private',
+			gameMode: this.modal.gameMode,
+			roomTitle:this.modal.roomTitle
+		  }
+		  this.socketsvc.connecServer(userObj)
+
+	}
+
+	// 
   
     public getDismissReason(reason: any): string {
 		if (reason === ModalDismissReasons.ESC) {
@@ -109,21 +130,9 @@ export class LandingComponent implements OnInit {
 		}
 	}
 
-	startgame(){
-		this.subscribeToGameStart()
-	}
-	subscribeToGameStart() {
-		let temp: Subscription;
-		console.log("subscribetogamestart")
-		temp = this.socketsvc.leaveLobby.subscribe((data) => {
-		  console.log(data,"data");
-		  if(data) {
-			// console.log("game start listened ", data, this.lobby);
-			this.startgame();
-		  }
-		});
-		// this.subscriptions.push(temp);
-	  }
+
+
+	
 	
 }
 
