@@ -11,6 +11,7 @@ import { SocketconnectionServices } from '../services/socketconnection.service';
 })
 export class WaitingroomComponent implements OnInit {
   lobby: any;
+  show:boolean = true;
   protected subscriptions: Subscription[] = [];
   constructor(public modal:ModelLocater,public socketsvc:SocketconnectionServices,public router:Router) {
     this.subscribeToEvents();
@@ -55,6 +56,7 @@ export class WaitingroomComponent implements OnInit {
   
 
 	  startGameRoom(){
+      this.show = false
 		this.router.navigateByUrl('/gameplay', { skipLocationChange: false });
 	  }
   

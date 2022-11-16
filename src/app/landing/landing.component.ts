@@ -103,7 +103,7 @@ export class LandingComponent implements OnInit {
 		  this.socketsvc.joinFriendsRoom(userObj,this.modal.roomCode)
 	}
 
-	createRoomName(){
+	createPublicRoom(){
 		let userObj = {
 			userName: 'Srishti',
 			coin: 100,
@@ -129,6 +129,9 @@ export class LandingComponent implements OnInit {
 			return `with: ${reason}`;
 		}
 	}
+
+
+	
 
 
 

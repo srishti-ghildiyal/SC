@@ -15,6 +15,7 @@ export class PublicroomcodeComponent implements OnInit {
 
   getRoomName(event:any){
     this.modal.roomTitle =event.target.value;
+    console.log(this.modal.roomTitle)
   }
 
 }

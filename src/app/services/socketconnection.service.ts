@@ -48,7 +48,7 @@ export class SocketconnectionServices {
  
   public joinOrCreate(type: any, userObj: any) {
     this.client.getAvailableRooms(type).then((room: any) => {
-      console.log("rooms are ", room.metadata.roomTitle)
+      console.log("rooms are ", room.metadata.roomTitle, room)
       let roomExist = false;
       // if (rooms.length == 0) {
         this.client.create(type, userObj).then((lobby: any) => {
@@ -59,6 +59,8 @@ export class SocketconnectionServices {
           console.log("Lobby JOIN ERROR", e);
           alert("errror in connecting with lobby")
         });
+
+        
       // }
       // else {
       //   for (var i = 0; i < rooms.length; i++) {
@@ -195,6 +197,7 @@ export class SocketconnectionServices {
     let roomExist = false;
     this.client.joinById(roomId, userObj).then((lobby: any) => {
       console.log("lobby joined successfully >>", lobby);
+      this.startLobbyFriend(lobby, 'Random');
       // this.startFriendsRoom(lobby, 'Random');
       // this.router.navigateByUrl('/join-game', { skipLocationChange: false });
       this.setLobbyObject.next(lobby);

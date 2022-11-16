@@ -1,4 +1,4 @@
-<div class="modal-body modalBg tabSpace">
+<div class="modal-body modalBg tabSpace" *ngIf="this.show">
     <div class="playerTable">
         <div class="playerTab p1">
             <div class="imgWrap blueBg">
@@ -15,7 +15,7 @@
                 <img src="../../assets/img/profilep.png" alt="">
             </div>
             <p>{{this.modal.userName}}</p>
-            <button>Switch the player <img src="../../assets/img/refresh.png" alt=""></button>
+            <button>Switch the player<img src="../../assets/img/refresh.png" alt=""></button>
         </div>
     
         <div class="playerTab p3">

@@ -176,7 +176,7 @@
     <button type="button" class="m-2 home-btn"  aria-label="Close" (click)="modal.dismiss('Cross click')">
         <img src="../../assets/img/homeBtn.png" alt="">
     </button>
-    <button type="button" class="blueBtn" (click)="openWR(waitingroom);createRoomName()">Create </button>
+    <button type="button" class="blueBtn" (click)="openWR(waitingroom);createPublicRoom()">Create </button>
    </div>
 </ng-template>
 
@@ -219,6 +219,7 @@
 <ng-template #waitingroom let-model>
     <app-waitingroom></app-waitingroom>
     <!-- <button type="button" class="blueBtn" (click)="playGame()" *ngIf="this.modal.isHost" >Play</button> -->
+    
 </ng-template>
 
 
