@@ -7,6 +7,7 @@ import { ModelLocater } from '../modelLocater/modelLocater';
   styleUrls: ['./publicroomcode.component.scss']
 })
 export class PublicroomcodeComponent implements OnInit {
+ 
 
   constructor(public modal: ModelLocater) { }
 
@@ -16,6 +17,11 @@ export class PublicroomcodeComponent implements OnInit {
   getRoomName(event:any){
     this.modal.roomTitle =event.target.value;
     console.log(this.modal.roomTitle)
+  }
+
+  selectMode(mode:string){
+    this.modal.gameMode = mode;
+    console.log('game mode>>', this.modal.gameMode)
   }
 
 }

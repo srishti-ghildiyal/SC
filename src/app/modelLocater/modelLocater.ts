@@ -14,12 +14,14 @@ export class ModelLocater{
     public players: any = [];
     public roomName: string = "";
     public hostPlayer: any;
-    public gameMode:string='';
+    public gameMode:string='newbies';
     public roomCode:any;
     public lobbydata:any;
     public isHost:boolean=false;
     public userName:string='';
     public roomTitle:string = ''
+    public rooms: any = [];
+    
    
 
 

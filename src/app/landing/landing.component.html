@@ -113,7 +113,8 @@
 
 <ng-template #createRoom let-modal>
     <app-createroom></app-createroom>
-    <div class="modal-footer">
+    
+    <div class="modal-footer"   >
         <button type="button" class="home-btn" (click)="modal.dismiss('Cross click')">
             <img src="../../assets/img/homeBtn.png" alt="">
         </button>
@@ -176,7 +177,7 @@
     <button type="button" class="m-2 home-btn"  aria-label="Close" (click)="modal.dismiss('Cross click')">
         <img src="../../assets/img/homeBtn.png" alt="">
     </button>
-    <button type="button" class="blueBtn" (click)="openWR(waitingroom);createPublicRoom()">Create </button>
+    <button type="button" class="blueBtn" (click)="createPublicRoom();openWR(waitingroom);modal.dismiss('Cross click')">Create </button>
    </div>
 </ng-template>
 
@@ -199,7 +200,7 @@
      <button type="button" class="m-2 home-btn"  aria-label="Close" (click)="modal.dismiss('Cross click')">
          <img src="../../assets/img/homeBtn.png" alt="">
      </button>
-     <button type="button" class="blueBtn" >Send Code </button>
+     <button type="button" class="blueBtn" (click)="shareCode()">Send Code </button>
      <button type="button" class="blueBtn" (click)="openWR(waitingroom);modal.dismiss('Cross click')">start </button>
     </div>
  </ng-template>
@@ -216,10 +217,8 @@
  </ng-template>
  
  <!-- waiting room -->
-<ng-template #waitingroom let-model>
+<ng-template #waitingroom let-modal>
     <app-waitingroom></app-waitingroom>
-    <!-- <button type="button" class="blueBtn" (click)="playGame()" *ngIf="this.modal.isHost" >Play</button> -->
-    
 </ng-template>
 
 

@@ -1,18 +1,18 @@
-<div class="modal-body modalBg tabSpace">
+<div class="modal-body modalBg tabSpace" >
     <ul ngbNav #nav="ngbNav" class="nav-tabs">
-        <li ngbNavItem>
+        <li ngbNavItem (click)="selectMode('newbies')">
             <a ngbNavLink>Newbies</a>
 
         </li>
-        <li ngbNavItem>
+        <li ngbNavItem (click)="selectMode('relaxed')">
             <a ngbNavLink>Relaxed</a>
 
         </li>
-        <li ngbNavItem>
+        <li ngbNavItem (click)="selectMode('fast')">
             <a ngbNavLink>Fast</a>
 
         </li>
-        <li ngbNavItem>
+        <li ngbNavItem (click)="selectMode('turbo')">
             <a ngbNavLink>Turbo</a>
         </li>
     </ul>

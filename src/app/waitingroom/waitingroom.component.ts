@@ -12,6 +12,7 @@ import { SocketconnectionServices } from '../services/socketconnection.service';
 export class WaitingroomComponent implements OnInit {
   lobby: any;
   show:boolean = true;
+ 
   protected subscriptions: Subscription[] = [];
   constructor(public modal:ModelLocater,public socketsvc:SocketconnectionServices,public router:Router) {
     this.subscribeToEvents();
@@ -19,6 +20,7 @@ export class WaitingroomComponent implements OnInit {
    }
 
   ngOnInit(): void {
+
   }
 
   subscribeToEvents(){
@@ -31,7 +33,7 @@ export class WaitingroomComponent implements OnInit {
 		temp = this.socketsvc.leaveLobby.subscribe((data) => {
 		  console.log(data,"data");
 		  if(data) {
-			// console.log("game start listened ", data, this.lobby);
+			console.log("game start listened>> ", data, this.lobby);
 			this.startGameRoom();
 		  }
 		});
@@ -56,11 +58,11 @@ export class WaitingroomComponent implements OnInit {
   
 
 	  startGameRoom(){
-      this.show = false
-		this.router.navigateByUrl('/gameplay', { skipLocationChange: false });
+      this.show = false;
+    
+		  this.router.navigateByUrl('/gameplay', { skipLocationChange: false });
 	  }
-  
-    startGame(){
+     startGame(){
     this.lobby.send("START_GAME");
   }
 

@@ -1,160 +1,86 @@
-<div class="modal-body modalBg tabSpace">
+<div class="modal-body modalBg tabSpace" *ngIf="this.show">
     <ul ngbNav #nav="ngbNav" class="nav-tabs">
-        <li ngbNavItem>
-            <a ngbNavLink >Newbies</a>
-            <ng-template ngbNavContent>
-            <div class="roomList" *ngIf="this.modal.roomTitle">
-                <div class="listItem">
-                    <img src="../../assets/img/trtl.png" alt="" class="ttl">
-                    <div>
-                        <p>{{this.modal.roomTitle}}</p>
-                        <p> Entry Fee: 50 <img src="../../assets/img/gems.png" alt="gems"></p>
+        <li ngbNavItem (click)="selectMode('newbies')">
+            <a ngbNavLink>Newbies</a>
+            <ng-template ngbNavContent >
+                <div class="roomList" *ngFor="let room of this.modal.rooms">
+                    <div class="listItem" *ngIf="room.metadata.gameMode == 'newbies'">
+                        <ng-container>
+                            <img src="../../assets/img/trtl.png" alt="" class="ttl">
+                            <div>
+                                <p>{{room.metadata.roomTitle}}</p>
+                                <p> Entry Fee: 50 <img src="../../assets/img/gems.png" alt="gems"></p>
+                            </div>
+                            <button class="joinBtn" (click)="joinRoom(room.roomId);openWR(waitingroom)">
+                                Join
+                            </button>
+                        </ng-container>
                     </div>
-                    <button class="joinBtn">
-                        Join
-                    </button>
                 </div>
-
-                <!-- <div class="listItem">
-                    <img src="../../assets/img/trtl.png" alt="" class="ttl">
-                    <div>
-                        <p> Room Name ABC</p>
-                        <p> Entry Fee: 50 <img src="../../assets/img/gems.png" alt="gems"></p>
-                    </div>
-                    <button class="joinBtn"  >
-                        Join
-                    </button>
-                </div> -->
-
-                <!-- <div class="listItem">
-                    <img src="../../assets/img/trtl.png" alt="" class="ttl">
-                    <div>
-                        <p> Room Name ABC</p>
-                        <p> Entry Fee: 50 <img src="../../assets/img/gems.png" alt="gems"></p>
-                    </div>
-                    <button class="joinBtn">
-                        Join
-                    </button>
-                </div> -->
-
-                <!-- <div class="listItem">
-                    <img src="../../assets/img/trtl.png" alt="" class="ttl">
-                    <div>
-                        <p> Room Name ABC</p>
-                        <p> Entry Fee: 50 <img src="../../assets/img/gems.png" alt="gems"></p>
-                    </div>
-                    <button class="joinBtn">
-                        Join
-                    </button>
-                </div> -->
-
-                <!-- <div class="listItem">
-                    <img src="../../assets/img/trtl.png" alt="" class="ttl">
-                    <div>
-                        <p> Room Name ABC</p>
-                        <p> Entry Fee: 50 <img src="../../assets/img/gems.png" alt="gems"></p>
-                    </div>
-                    <button class="joinBtn">
-                        Join
-                    </button>
-                </div> -->
-
-                <!-- <div class="listItem">
-                    <img src="../../assets/img/trtl.png" alt="" class="ttl">
-                    <div>
-                        <p> Room Name ABC</p>
-                        <p> Entry Fee: 50 <img src="../../assets/img/gems.png" alt="gems"></p>
-                    </div>
-                    <button class="joinBtn">
-                        Join
-                    </button>
-                </div> -->
-
-                <!-- <div class="listItem">
-                    <img src="../../assets/img/trtl.png" alt="" class="ttl">
-                    <div>
-                        <p> Room Name ABC</p>
-                        <p> Entry Fee: 50 <img src="../../assets/img/gems.png" alt="gems"></p>
-                    </div>
-                    <button class="joinBtn">
-                        Join
-                    </button>
-                </div> -->
-
-                <!-- <div class="listItem">
-                    <img src="../../assets/img/trtl.png" alt="" class="ttl">
-                    <div>
-                        <p> Room Name ABC</p>
-                        <p> Entry Fee: 50 <img src="../../assets/img/gems.png" alt="gems"></p>
-                    </div>
-                    <button class="joinBtn">
-                        Join
-                    </button>
-                </div> -->
-            </div>
             </ng-template>
         </li>
-        <li ngbNavItem>
+        <li ngbNavItem (click)="selectMode('relaxed')">
             <a ngbNavLink>Relaxed</a>
             <ng-template ngbNavContent>
-            <div class="createRoomWrap"> 
-                <h3>Room Code</h3>
-                <input type="text" class="roomCode">
-                <h4>Entry Fee : 100 <img src="../../assets/img/gems.png" alt="gems"></h4>
-            </div>
-            </ng-template>
-        </li>
-        <li ngbNavItem>
-            <a ngbNavLink>fast</a>
-            <ng-template ngbNavContent>
-                <div class="playerTable">
-                    <div class="playerTab p1">
-                        <div class="imgWrap blueBg">
-                            <span>A</span>
-                            <img src="../../assets/img/profilep.png" alt="">
+                <div class="roomList" *ngFor="let room of this.modal.rooms">
+                    <div class="listItem" *ngIf="room.metadata.gameMode == 'relaxed'">
+                        <img src="../../assets/img/trtl.png" alt="" class="ttl">
+                        <div>
+                            <p>{{room.metadata.roomTitle}}</p>
+                            <p> Entry Fee: 50 <img src="../../assets/img/gems.png" alt="gems"></p>
                         </div>
-                        <p>Louis</p>
-                        <button>Switch the player <img src="../../assets/img/refresh.png" alt=""></button>
+                        <button class="joinBtn" (click)="joinRoom(room.roomId);openWR(waitingroom)">
+                            Join
+                        </button>
                     </div>
-
-                    <div class="playerTab p2">
-                        <div class="imgWrap">
-                            <span>B</span>
-                            <img src="../../assets/img/profilep.png" alt="">
-                        </div>
-                        <p>Louis</p>
-                        <button>Switch the player <img src="../../assets/img/refresh.png" alt=""></button>
-                    </div>
-
-                    <div class="playerTab p3">
-                        <div class="imgWrap">
-                            <span>B</span>
-                            <img src="../../assets/img/profilep.png" alt="">
-                        </div>
-                        <p>Louis</p>
-                        <button>Switch the player <img src="../../assets/img/refresh.png" alt=""></button>
-                    </div>
-
-                    <div class="playerTab p4">
-                        <div class="imgWrap blueBg">
-                            <span>A</span>
-                            <img src="../../assets/img/profilep.png" alt="">
-                        </div>
-                        <p>Louis</p>
-                        <button>Switch the player <img src="../../assets/img/refresh.png" alt=""></button>
-                    </div>                           
-
-                    <button type="button" class="blueBtn">Play</button>
                 </div>
             </ng-template>
         </li>
-        <li ngbNavItem>
-            <a ngbNavLink>super fast</a>
-            <ng-template ngbNavContent>Second content</ng-template>
-        </li>
+        <li ngbNavItem (click)="selectMode('fast')">
+            <a ngbNavLink>fast</a>
+            <ng-template ngbNavContent>
+                <div class="roomList" *ngFor="let room of this.modal.rooms">
+                    <div class="listItem" *ngIf="room.metadata.gameMode == 'fast'">
 
-        
+                        <img src="../../assets/img/trtl.png" alt="" class="ttl">
+                        <div>
+                            <p>{{room.metadata.roomTitle}}</p>
+                            <p> Entry Fee: 50 <img src="../../assets/img/gems.png" alt="gems"></p>
+                        </div>
+                        <button class="joinBtn" (click)="joinRoom(room.roomId);openWR(waitingroom)">
+                            Join
+                        </button>
+                    </div>
+                </div>
+            </ng-template>
+        </li>
+        <li ngbNavItem (click)="selectMode('superfast')">
+            <a ngbNavLink>super fast</a>
+            <ng-template ngbNavContent>
+                <div class="roomList " *ngFor="let room of this.modal.rooms">
+                    <div class="listItem" *ngIf="room.metadata.gameMode == 'superfast'">
+
+
+                        <img src="../../assets/img/trtl.png" alt="" class="ttl">
+                        <div>
+                            <p>{{room.metadata.roomTitle}}</p>
+                            <p> Entry Fee: 50 <img src="../../assets/img/gems.png" alt="gems"></p>
+                        </div>
+                        <button class="joinBtn" (click)="joinRoom(room.roomId);openWR(waitingroom)">
+                            Join
+                        </button>
+
+                    </div>
+                </div>
+            </ng-template>
+
+        </li>
     </ul>
     <div [ngbNavOutlet]="nav"></div>
 </div>
+
+<ng-template #waitingroom let-modal>
+    <app-waitingroom></app-waitingroom>
+
+</ng-template>
 

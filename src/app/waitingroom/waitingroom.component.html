@@ -1,41 +1,41 @@
 <div class="modal-body modalBg tabSpace" *ngIf="this.show">
     <div class="playerTable">
-        <div class="playerTab p1">
+        <div class="playerTab p1" *ngIf="this.modal.playersInRoom[0]">
             <div class="imgWrap blueBg">
                 <span>A</span>
                 <img src="../../assets/img/profilep.png" alt="">
             </div>
-            <p>{{this.modal.userName}}</p>
+            <p>{{this.modal.playersInRoom[0].name}}</p>
             <button>Switch the player <img src="../../assets/img/refresh.png" alt=""></button>
         </div>
     
-        <div class="playerTab p2">
+        <div class="playerTab p2"  *ngIf="this.modal.playersInRoom[1]">
             <div class="imgWrap">
                 <span>B</span>
                 <img src="../../assets/img/profilep.png" alt="">
             </div>
-            <p>{{this.modal.userName}}</p>
+            <p>{{this.modal.playersInRoom[1].name}}</p>
             <button>Switch the player<img src="../../assets/img/refresh.png" alt=""></button>
         </div>
     
-        <div class="playerTab p3">
+        <div class="playerTab p3"  *ngIf="this.modal.playersInRoom[2]">
             <div class="imgWrap">
                 <span>B</span>
                 <img src="../../assets/img/profilep.png" alt="">
             </div>
-            <p>{{this.modal.userName}}</p>
+            <p>{{this.modal.playersInRoom[2].name}}</p>
             <button>Switch the player <img src="../../assets/img/refresh.png" alt=""></button>
         </div>
     
-        <div class="playerTab p4">
+        <div class="playerTab p4"  *ngIf="this.modal.playersInRoom[3]">
             <div class="imgWrap blueBg">
                 <span>A</span>
                 <img src="../../assets/img/profilep.png" alt="">
             </div>
-            <p>{{this.modal.userName}}</p>
+            <p>{{this.modal.playersInRoom[3].name}}</p>
             <button>Switch the player <img src="../../assets/img/refresh.png" alt=""></button>
         </div>                           
     
-        <button type="button" class="blueBtn" (click)="startGame()" *ngIf="this.modal.isHost" >Play</button>
+        <button type="button" class="blueBtn" (click)="startGame()" *ngIf="this.modal.playersInRoom.length>3 && this.modal.isHost">Play</button>
     </div>
 </div>

@@ -7,7 +7,7 @@ import { ModelLocater } from '../modelLocater/modelLocater';
   styleUrls: ['./createprivateroom.component.scss']
 })
 export class CreateprivateroomComponent implements OnInit {
-  gameMode:string = ''
+  // gameMode:string = ''
   constructor(public modal:ModelLocater) { }
   
   ngOnInit(): void {
@@ -15,7 +15,7 @@ export class CreateprivateroomComponent implements OnInit {
 
   selectMode(mode:string){
     this.modal.gameMode = mode;
-    console.log('game mode>>',this.gameMode)
+    console.log('game mode>>', this.modal.gameMode)
   }
 
 

@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { CreateprivateroomComponent } from '../createprivateroom/createprivateroom.component';
 import { ModelLocater } from '../modelLocater/modelLocater';
 import { SocketconnectionServices } from '../services/socketconnection.service';
+import { WaitingroomComponent } from '../waitingroom/waitingroom.component';
 
 @Component({
   selector: 'app-landing',
@@ -12,12 +13,10 @@ import { SocketconnectionServices } from '../services/socketconnection.service';
   styleUrls: ['./landing.component.scss']
 })
 export class LandingComponent implements OnInit {
+	webshareService: any;
 	
-//  @ViewChild(CreateprivateroomComponent)
-//  gameMode: CreateprivateroomComponent = new CreateprivateroomComponent;
 
-
- constructor(private modalService: NgbModal,public socketsvc:SocketconnectionServices, public router:Router,public modal:ModelLocater) { 
+constructor(private modalService: NgbModal,public socketsvc:SocketconnectionServices, public router:Router,public modal:ModelLocater) { 
 	
  }
 
@@ -104,19 +103,42 @@ export class LandingComponent implements OnInit {
 	}
 
 	createPublicRoom(){
+		this.modal.isHost = true;
 		let userObj = {
 			userName: 'Srishti',
 			coin: 100,
 			avatar: "1",
 			dbId: Math.floor(Math.random() * 10000),
 			mode: 'normal',
-			roomType: 'private',
+			roomType: 'public',
 			gameMode: this.modal.gameMode,
 			roomTitle:this.modal.roomTitle
 		  }
-		  this.socketsvc.connecServer(userObj)
+		  
+		  this.socketsvc.connectServer(userObj)
 
 	}
+
+	shareCode(){
+		 
+		if (!this.webshareService.canShare()) {
+			alert(`This service/api is not supported in your Browser`);
+			return;
+		  }
+	  
+		  this.webshareService.share({
+			title: 'My Awesome app',
+			text: 'hey check out my Share button',
+			url: 'https://developers.google.com/web'
+		  }).then( (response: any) => {
+			console.log(response);
+		  })
+		  .catch( (error: any) => {
+			console.log(error);
+		  });
+		}
+	
+	
 
 	// 
   

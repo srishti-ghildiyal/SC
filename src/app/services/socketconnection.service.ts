@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import {Client} from 'colyseus.js';
+import { Router } from '@angular/router';
+import { Client } from 'colyseus.js';
+import { create } from 'domain';
 // import { Router } from '@angular/router';
 import { ReplaySubject } from 'rxjs';
 import { ModelLocater } from '../modelLocater/modelLocater';
@@ -19,108 +21,128 @@ export class SocketconnectionServices {
   public setLobbyObject: ReplaySubject<{ [key: string]: string; }>;
 
 
-  constructor(public model: ModelLocater) {
+  constructor(public model: ModelLocater, public router: Router) {
     this.leaveLobby = new ReplaySubject<{ [key: string]: string; }>(1);
     this.setLobbyObject = new ReplaySubject<{ [key: string]: string; }>(1);
+
   }
 
 
-  public connecServer(userObj: any): any {
+  public connectServer(userObj: any): any {
 
     this.client = new Client(this.port);
     console.log("User data ", userObj);
     console.log("client is ", this.client, " port is ", this.port)
-
-    this.client.create('lobby', userObj).then((lobby: any) => {
-      this.setLobbyObject.next(lobby);
-      console.log("lobby Info >>", lobby);
-      this.startLobby(lobby, 'random');
-
-    }).catch((e: any) => {
-      console.log("Lobby JOIN ERROR", e);
-      alert("errror in connecting with lobby")
-
-
-    });
+    this.Create('lobby', userObj)
 
   }
-  //Create or Join Random Room
- 
-  public joinOrCreate(type: any, userObj: any) {
-    this.client.getAvailableRooms(type).then((room: any) => {
-      console.log("rooms are ", room.metadata.roomTitle, room)
+
+  //Create Random Room
+
+public Create(type: any, userObj: any) {
+    this.client.getAvailableRooms(type).then((rooms: any) => {
+      console.log('rooms are', rooms)
       let roomExist = false;
-      // if (rooms.length == 0) {
+      rooms.forEach((room: any) => {
+        if (room.metadata.roomTitle == userObj.roomTitle && room.metadata.gameMode == userObj.gameMode) {
+          roomExist = true;
+        }
+      })
+      if (!roomExist) {
         this.client.create(type, userObj).then((lobby: any) => {
           this.setLobbyObject.next(lobby);
           console.log("Room created successfully >>", lobby, userObj);
-          this.startLobby(lobby, 'random');
+          this.startPublicLobby(lobby, type);
+          this.getplayers(lobby)
         }).catch((e: any) => {
           console.log("Lobby JOIN ERROR", e);
           alert("errror in connecting with lobby")
         });
+      }
+      else {
+        alert('Room already Exist')
+      }
 
-        
-      // }
-      // else {
-      //   for (var i = 0; i < rooms.length; i++) {
-      //     console.log("matching rooms ", rooms[i].roomId);
-      //     if (rooms[i].roomId == userObj.roomId) {
-      //       roomExist = true;
-      //       this.client.joinById(rooms[i].roomId, userObj).then((lobby: any) => {
-      //         this.setLobbyObject.next(lobby);
-      //         console.log("lobby joined successfully >>", lobby);
-      //         this.startLobby(lobby, 'Random');
-      //       }).catch((e: any) => {
-      //         console.log("JOIN ERROR", e);
-      //       });
-      //     }
-      //     else if (!roomExist && i == (rooms.length - 1)) {
-      //       this.client.create(type, userObj).then((lobby: any) => {
-      //         this.setLobbyObject.next(lobby);
-      //         console.log("Room created successfully >>", lobby, userObj);
-      //         this.startLobby(lobby, 'random');
-      //       }).catch((e: any) => {
-      //         console.log("Lobby JOIN ERROR", e);
-      //       });
-      //     }
-      //   }
-      // }
+    })
+}
+
+  // join random room
+  public Join(roomid: any, userObj: any) {
+    this.client = new Client(this.port);
+    this.client.joinById(roomid, userObj).then((lobby: any) => {
+      this.setLobbyObject.next(lobby);
+      console.log("lobby joined successfully >>", lobby);
+      this.startPublicLobby(lobby, 'Random');
+      this.getplayers(lobby)
     }).catch((e: any) => {
-      console.log("get avl rooms Room Join ERROR", e);
+      console.log("JOIN ERROR", e);
     });
   }
 
+  //get room list
+  public getRooms(type: any) {
+    this.model.rooms =[];
+    this.client = new Client(this.port);
+    this.client.getAvailableRooms(type).then((rooms: any) => {
+      rooms.forEach((room: any) => {
+        console.log('rooms available>>>>', room)
+        console.log('roomsid>>>>', room.roomId)
+        this.model.rooms.push(room);
+      });
+    })
+  }
 
+  // players in room
+  getplayers(room: any) {
+    room.state.players.onAdd = (player: any, key: any) => {
+      console.log("Player Add", player, key);
+      console.log('player name', player.name);
+      this.model.playersInRoom.push(player)
+    }
 
+  }
 
   //start Random lobby
   startLobby(lobby: any, roomtype: any) {
     this.model.lobbydata = lobby
     lobby.onMessage("JOINFINAL", (message: any) => {
       console.log('all player', message.gamePlayerList);
-      // this.model.playersInRoom = message.gamePlayerList;
-      // console.log("ALL PLAYERS", this.model.playersInRoom);
     });
 
     lobby.onMessage("ROOMCONNECT", (message: any) => {
       console.log("Room Connected", message);
-      // this.model.teamName = message.team;
-      // this.model.seatOnServer = message.seat;
-      // this.model.userServerIndex = message.userIndex;
+      
       lobby.leave();
-      // this.leaveLobby.next(message);
+      this.leaveLobby.next(message);
       console.log('lobby leave')
       this.leaveLobby.next(message);
+
     });
     lobby.onLeave((code: any) => {
       console.log('Client left the lobby', code)
     })
   }
 
+  public startPublicLobby(lobby: any, roomtype: any) {
+    this.model.lobbydata = lobby
+    lobby.onMessage("JOINFINAL", (message: any) => {
+      console.log('all player', message.gamePlayerList);
+      console.log('message',message)
+    });
 
+    lobby.onMessage("ROOM_CONNECT", (message: any) => {
+      console.log("Room Connected", message);
+     
+      lobby.leave();
+      this.leaveLobby.next(message);
+      console.log('lobby leave')
+      this.leaveLobby.next(message);
 
-
+    });
+    lobby.onLeave((code: any) => {
+      console.log('Client left the lobby', code)
+    })
+  }
 
 
   //Private Lobby Room
@@ -133,78 +155,42 @@ export class SocketconnectionServices {
       this.model.roomCodeToJoinAndShare = lobby.id;
       console.log('rome code', this.model.roomCodeToJoinAndShare)
       this.startLobbyFriend(lobby, 'Random');
+      this.getplayers(lobby)
     }).catch((e: any) => {
       console.log("Lobby JOIN ERROR", e);
       alert("errror in connecting with lobby");
     });
   }
 
-  ///////
-
-
   startLobbyFriend(friendsRoom: any, roomtype: any) {
     console.log("inside FriendsRoom", friendsRoom.onMessage);
-    // friendsRoom.state.players.onAdd = (player: any, key: any) => {
-    //   console.log("125", player);
-    //   this.updatePlayersInLobbyFriend(player);
-    //   let map: { [key: string]: any; } = {};
-    //   map['userName'] = player.userName;
-    //   map['userId'] = player.dbId;
-    //   map['isPartner'] = '';
-    //   map['id'] = 0;
-    //   this.model.gamePlayer.push(map);
-    //   friendsRoom.leave();
-    //   this.updatePlayersInLobbyFriend(this.model.gamePlayer);
-    // }
 
     friendsRoom.onMessage("ROOM_CONNECT", (message: any) => {
       console.log("room connect ", message);
       console.log("ALL PLAYERS", this.model.playersInRoom);
 
-      // this.model.teamName = message.team;
-      // this.model.seatOnServer = message.seat;
-      // this.model.userServerIndex = message.userIndex;
-      // console.log(message.userIndex, "inside room connect");
       friendsRoom.leave();
       this.leaveLobby.next(message);
       this.model.players = [];
       this.model.roomName = "";
       this.model.roomCodeToJoinAndShare = 0;
     });
+  }
 
-  //   updatePlayersInLobbyFriend(playerDetails: any) {
-  //   console.log("players are ", playerDetails);
-  //   const p: playersvo[] = [];
-  //   if (this.model.players.length != this.model.gamePlayer) {
-  //     this.model.players = []
-  //     this.model.hostPlayer = this.model.gamePlayer[0];
-  //     for (let player of this.model.gamePlayer) {
-  //       const participant: playersvo = new playersvo(player.userName, player.id, player.userId, player.isPartner);
-  //       this.model.players.push(participant);
-  //       console.log(this.model.players, "this.model.players");
-  //     }
-  //     this.model.playersInRoom = this.model.gamePlayer;
-
-  //   }
-  // }
-
-}
-  
-   public joinFriendsRoom(userObj: any, roomId: any) {
-    console.log("inside funcnjoin friend",roomId)
+  public joinFriendsRoom(userObj: any, roomId: any) {
+    console.log("inside funcnjoin friend", roomId)
     const port = 'ws://3.18.57.54:2567';
     this.client = new Client(this.port);
     let roomExist = false;
     this.client.joinById(roomId, userObj).then((lobby: any) => {
       console.log("lobby joined successfully >>", lobby);
       this.startLobbyFriend(lobby, 'Random');
-      // this.startFriendsRoom(lobby, 'Random');
-      // this.router.navigateByUrl('/join-game', { skipLocationChange: false });
+      this.getplayers(lobby)
       this.setLobbyObject.next(lobby);
-  
+
     }).catch((e: any) => {
       console.log("JOIN friendivite ERROR", e);
     });
-}
+  }
 
 }

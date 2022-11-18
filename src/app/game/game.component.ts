@@ -47,7 +47,7 @@ export class GameComponent implements OnInit {
       dbId: Math.floor(Math.random() * 10000),
       mode: 'normal'
     }
-    this.socketsvc.connecServer(userObj)
+    this.socketsvc.connectServer(userObj)
   }
 
 

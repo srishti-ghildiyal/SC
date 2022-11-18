@@ -7,6 +7,7 @@ import { LandingComponent } from './landing/landing.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 
+
 const routes: Routes = [
   {path: '', component: LoginComponent },
   {path: 'login', component: LoginComponent },
@@ -14,8 +15,8 @@ const routes: Routes = [
   {path: 'landing', component: LandingComponent },
   {path: 'chat', component: ChatComponent },
   {path: 'help', component: HelpComponent },
-  {path:'gameplay',component:GameComponent}
-  // {path: 'second-component', component: SecondComponent },
+  {path:'gameplay',component:GameComponent},
+ 
 ];
 
 @NgModule({
